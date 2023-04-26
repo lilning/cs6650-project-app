@@ -20,10 +20,8 @@ public class BankTransactionData {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String operation;
   private Long amount;
   private Long sender;
   private Long recipient;
   private String comments;
-
 }

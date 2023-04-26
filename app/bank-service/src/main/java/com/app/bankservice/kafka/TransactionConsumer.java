@@ -33,11 +33,11 @@ public class TransactionConsumer {
 		// data points such as sender, receiver, amount (basically all BankTransactionData properties)
 		//Setter code is place holder for now
 		BankTransactionData bankTransactionData = new BankTransactionData();
-		bankTransactionData.setSender(event);
-		bankTransactionData.setComments(event);
-		bankTransactionData.setAmount(event);
-		bankTransactionData.setRecipient(event);
-		bankTransactionData.setOperation(event);
+		bankTransactionData.setId(event.getTransaction().getId());
+		bankTransactionData.setSender(event.getTransaction().getSender());
+		bankTransactionData.setComments(event.getTransaction().getComments());
+		bankTransactionData.setAmount(event.getTransaction().getAmount());
+		bankTransactionData.setRecipient(event.getTransaction().getRecipient());
 
 		//We then save the banktransaction entity to the MySQL database and it populates the table
 		/* TODO: save the transaction event into the database */
