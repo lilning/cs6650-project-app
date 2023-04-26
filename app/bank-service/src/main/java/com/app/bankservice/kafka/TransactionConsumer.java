@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.sql.Connection;
+
 @Service
 public class TransactionConsumer {
 
@@ -18,20 +20,25 @@ public class TransactionConsumer {
 		this.dataRepository = dataRepository;
 	}
 
+	public Connection connectDB() {
+
+		String url = "jdbc:google:mysql://sds-final-project-384919:us-central1:/finalproject";
+
+
+
+	}
+
 	@KafkaListener(
 			topics = "${spring.kafka.topic.name}"
 			,groupId = "${spring.kafka.consumer.group-id}"
 	)
 
-	//The TransactionEvent will most likely be replaced with a custom event to fit our bank transaction properties
+
 	public void consume(TransactionEvent event){
 		LOGGER.info(String.format("Transaction event received in bank service => %s",
 				event.toString()));
 
-		//Create BankTransactionData object so we can then set the data from the TransactionEvent that is being consumed.
-		//Once we have the structure for the TransactionEvent we can actually parse it/get the individual
-		// data points such as sender, receiver, amount (basically all BankTransactionData properties)
-		//Setter code is place holder for now
+
 		BankTransactionData bankTransactionData = new BankTransactionData();
 		bankTransactionData.setId(event.getTransaction().getId());
 		bankTransactionData.setSender(event.getTransaction().getSender());
@@ -48,4 +55,21 @@ public class TransactionConsumer {
 
 		/* TODO: update account balance */
 	}
+
+	//Checks that sender username balance has sufficient funds
+	public boolean sufficientBalance(TransactionEvent event) {
+
+		return true;
+	}
+
+	//Sets balance for sender
+	public void setSenderBalance(TransactionEvent event) {
+
+	}
+
+	//Sets balance for recipient
+	public void setRecipientBalance(TransactionEvent event) {
+
+	}
+
 }
