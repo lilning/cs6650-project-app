@@ -19,9 +19,9 @@ public class BankTransactionData {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private Long amount;
-  private Long sender;
-  private Long recipient;
+  private String id;
+  private double amount;
+  private String sender;
+  private String recipient;
   private String comments;
 }

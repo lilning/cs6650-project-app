@@ -23,7 +23,7 @@ public class TransactionController {
 	@PostMapping("/transactions")
 	public String placeTransaction(@RequestBody Transaction transaction){
 
-		transaction.setTransactionId(UUID.randomUUID().toString());
+		transaction.setId(UUID.randomUUID().toString());
 
 		TransactionEvent transactionEvent = new TransactionEvent();
 		transactionEvent.setStatus("PENDING");

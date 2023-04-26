@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Transaction {
-	private String transactionId;
+	private String id;
+	private double amount;
 	private String sender;
 	private String recipient;
-	private double amount;
+	private String comments;
 }
