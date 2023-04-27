@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionEvent {
-	private String message;
-	private String status;
-	private Transaction transaction;
+public class Transaction {
+	private String id;
+	private double amount;
+	private String sender;
+	private String recipient;
+	private String comments;
 }

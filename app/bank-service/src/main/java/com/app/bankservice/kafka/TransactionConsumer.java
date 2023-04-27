@@ -15,8 +15,8 @@ import java.sql.Connection;
 public class TransactionConsumer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TransactionConsumer.class);
-	private final TransactionDataRepository transactionRepository;
-	private final UserDataRepository userRepository;
+	private TransactionDataRepository transactionRepository;
+	private UserDataRepository userRepository;
 
 	public TransactionConsumer(TransactionDataRepository transactionRepository, UserDataRepository userRepository) {
 		this.transactionRepository = transactionRepository;
@@ -36,11 +36,11 @@ public class TransactionConsumer {
 
 
 		BankTransactionData bankTransactionData = new BankTransactionData();
-		bankTransactionData.setId(event.getId());
-		bankTransactionData.setSender(event.getSender());
-		bankTransactionData.setComments(event.getComments());
-		bankTransactionData.setAmount(event.getAmount());
-		bankTransactionData.setRecipient(event.getRecipient());
+		bankTransactionData.setId(event.getTransaction().getId());
+		bankTransactionData.setSender(event.getTransaction().getSender());
+		bankTransactionData.setComments(event.getTransaction().getComments());
+		bankTransactionData.setAmount(event.getTransaction().getAmount());
+		bankTransactionData.setRecipient(event.getTransaction().getRecipient());
 
 		//Checking for sufficient balance
 		if (sufficientBalance(bankTransactionData)) {

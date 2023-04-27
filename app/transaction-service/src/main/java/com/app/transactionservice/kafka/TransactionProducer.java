@@ -15,9 +15,9 @@ public class TransactionProducer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TransactionProducer.class);
 
-	private final NewTopic topic;
+	private NewTopic topic;
 
-	private final KafkaTemplate<String, TransactionEvent> kafkaTemplate;
+	private KafkaTemplate<String, TransactionEvent> kafkaTemplate;
 
 	public TransactionProducer(NewTopic topic,
 							   KafkaTemplate<String, TransactionEvent> kafkaTemplate) {
