@@ -2,6 +2,7 @@ package com.app.bankservice.kafka;
 
 import com.app.bankservice.kafka.entity.BankTransactionData;
 import com.app.bankservice.kafka.repository.repository.TransactionDataRepository;
+import com.app.bankservice.kafka.repository.repository.UserDataRepository;
 import com.app.basedomains.dto.TransactionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,19 +15,14 @@ import java.sql.Connection;
 public class TransactionConsumer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TransactionConsumer.class);
-	private TransactionDataRepository dataRepository;
+	private TransactionDataRepository transactionRepository;
+	private UserDataRepository userRepository;
 
-	public TransactionConsumer(TransactionDataRepository dataRepository) {
-		this.dataRepository = dataRepository;
+	public TransactionConsumer(TransactionDataRepository transactionRepository, UserDataRepository userRepository) {
+		this.transactionRepository = transactionRepository;
+		this.userRepository = userRepository;
 	}
 
-	public Connection connectDB() {
-
-		String url = "jdbc:google:mysql://sds-final-project-384919:us-central1:/finalproject";
-
-
-
-	}
 
 	@KafkaListener(
 			topics = "${spring.kafka.topic.name}"
@@ -46,30 +42,68 @@ public class TransactionConsumer {
 		bankTransactionData.setAmount(event.getTransaction().getAmount());
 		bankTransactionData.setRecipient(event.getTransaction().getRecipient());
 
+		//Checking for sufficient balance
+		if (sufficientBalance(bankTransactionData)) {
+			//updating balance for users in transaction
+			setSenderBalance(bankTransactionData);
+			setRecipientBalance(bankTransactionData);
+
+			//writing bank transaction data to transaction table
+			transactionRepository.save(bankTransactionData);
+		}
+
 		//We then save the banktransaction entity to the MySQL database and it populates the table
 		/* TODO: save the transaction event into the database */
-		dataRepository.save(bankTransactionData);
 
-		/* TODO: If payment out, validate if account balance > amt */
-		// update transactionEvent status and message, populate the info as response for POST
 
-		/* TODO: update account balance */
 	}
 
 	//Checks that sender username balance has sufficient funds
-	public boolean sufficientBalance(TransactionEvent event) {
-
-		return true;
+	public boolean sufficientBalance(BankTransactionData bankTransactionData) {
+		LOGGER.info("Checking for sufficient sender balance...");
+		String sender = bankTransactionData.getSender();
+		Double balance = bankTransactionData.getAmount();
+		try {
+			if (userRepository.findUserBalance(sender) >= balance) {
+				LOGGER.info("Sufficient funds for user: " + sender);
+				return true;
+			}
+			LOGGER.info("Warning! Insufficient funds for user: " + sender);
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.info("ERROR: could not check balance for " + sender);
+		}
+		return false;
 	}
 
 	//Sets balance for sender
-	public void setSenderBalance(TransactionEvent event) {
+	public void setSenderBalance(BankTransactionData bankTransactionData) {
+		LOGGER.info("Calculating sender balance...");
+		Double amount = bankTransactionData.getAmount();
+		String sender = bankTransactionData.getSender();
+		try {
+			userRepository.setSenderBalance(amount, sender);
+			LOGGER.info("Balance successfully calculated for " + sender + ". Balance is now " + userRepository.findUserBalance(sender));
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.error("ERROR: balance was not calculated for " + sender);
+		}
 
 	}
 
 	//Sets balance for recipient
-	public void setRecipientBalance(TransactionEvent event) {
-
+	public void setRecipientBalance(BankTransactionData bankTransactionData) {
+		LOGGER.info("Calculating recipient balance...");
+		Double amount = bankTransactionData.getAmount();
+		String recipient = bankTransactionData.getRecipient();
+		try {
+			userRepository.setSenderBalance(amount, recipient);
+			LOGGER.info("Balance successfully calculated for " + recipient + ". Balance is now " + userRepository.findUserBalance(recipient));
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.error("ERROR: balance was not calculated for " + recipient);
+		}
 	}
 
 }
