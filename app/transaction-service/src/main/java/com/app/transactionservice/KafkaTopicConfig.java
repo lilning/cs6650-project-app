@@ -1,4 +1,4 @@
-package com.app.transactionservice.config;
+package com.app.transactionservice;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,7 +1,6 @@
-package com.app.transactionservice.controller;
+package com.app.transactionservice;
 
-import com.app.basedomains.dto.TransactionEvent;
-import com.app.transactionservice.kafka.TransactionProducer;
+import com.app.bankservice.entity.BankTransactionData;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +19,10 @@ public class TransactionController {
 	}
 
 	@PostMapping("/transactions")
-	public String placeTransaction(@RequestBody TransactionEvent incomingEvent){
+	public String placeTransaction(@RequestBody BankTransactionData incomingEvent){
 
-		TransactionEvent transactionEvent = new TransactionEvent();
+		BankTransactionData transactionEvent = new BankTransactionData();
 		transactionEvent.setId(UUID.randomUUID().toString());
-
-		transactionEvent.setStatus("PENDING");
-		transactionEvent.setMessage("transaction status is in pending state");
 		transactionEvent.setRecipient(incomingEvent.getRecipient());
 		transactionEvent.setSender(incomingEvent.getSender());
 		transactionEvent.setAmount(incomingEvent.getAmount());

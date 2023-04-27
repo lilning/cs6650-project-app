@@ -1,6 +1,6 @@
-package com.app.transactionservice.kafka;
+package com.app.transactionservice;
 
-import com.app.basedomains.dto.TransactionEvent;
+import com.app.bankservice.entity.BankTransactionData;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,19 +17,19 @@ public class TransactionProducer {
 
 	private final NewTopic topic;
 
-	private final KafkaTemplate<String, TransactionEvent> kafkaTemplate;
+	private final KafkaTemplate<String, BankTransactionData> kafkaTemplate;
 
 	public TransactionProducer(NewTopic topic,
-							   KafkaTemplate<String, TransactionEvent> kafkaTemplate) {
+							   KafkaTemplate<String, BankTransactionData> kafkaTemplate) {
 		this.topic = topic;
 		this.kafkaTemplate = kafkaTemplate;
 	}
 
-	public void sendMessage(TransactionEvent event){
+	public void sendMessage(BankTransactionData event){
 		LOGGER.info(String.format("Payment Transaction => %s", event.toString()));
 
 		// create Message
-		Message<TransactionEvent> message = MessageBuilder
+		Message<BankTransactionData> message = MessageBuilder
 				.withPayload(event)
 				.setHeader(KafkaHeaders.TOPIC, topic.name())
 				.build();

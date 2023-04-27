@@ -1,15 +1,12 @@
-package com.app.bankservice.kafka;
+package com.app.bankservice;
 
-import com.app.bankservice.kafka.entity.BankTransactionData;
-import com.app.bankservice.kafka.repository.repository.TransactionDataRepository;
-import com.app.bankservice.kafka.repository.repository.UserDataRepository;
-import com.app.basedomains.dto.TransactionEvent;
+import com.app.bankservice.entity.BankTransactionData;
+import com.app.bankservice.repository.TransactionDataRepository;
+import com.app.bankservice.repository.UserDataRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.sql.Connection;
 
 @Service
 public class TransactionConsumer {
@@ -30,7 +27,7 @@ public class TransactionConsumer {
 	)
 
 
-	public void consume(TransactionEvent event){
+	public void consume(BankTransactionData event){
 		LOGGER.info(String.format("Transaction event received in bank service => %s",
 				event.toString()));
 

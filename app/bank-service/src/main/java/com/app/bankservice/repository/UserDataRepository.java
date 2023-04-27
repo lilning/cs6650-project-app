@@ -1,7 +1,7 @@
-package com.app.bankservice.kafka.repository.repository;
+package com.app.bankservice.repository;
 
 
-import com.app.bankservice.kafka.entity.UserData;
+import com.app.bankservice.entity.UserData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

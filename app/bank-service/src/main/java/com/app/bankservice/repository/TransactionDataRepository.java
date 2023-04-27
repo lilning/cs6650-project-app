@@ -1,6 +1,6 @@
-package com.app.bankservice.kafka.repository.repository;
+package com.app.bankservice.repository;
 
-import com.app.bankservice.kafka.entity.BankTransactionData;
+import com.app.bankservice.entity.BankTransactionData;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

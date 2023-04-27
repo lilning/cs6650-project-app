@@ -1,4 +1,4 @@
-package com.app.bankservice.kafka.entity;
+package com.app.bankservice.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
