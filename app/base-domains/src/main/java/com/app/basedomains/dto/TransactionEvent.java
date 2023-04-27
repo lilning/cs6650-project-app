@@ -1,14 +1,17 @@
 package com.app.basedomains.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class TransactionEvent {
 	private String message;
 	private String status;
-	private Transaction transaction;
+	private String id;
+	private double amount;
+	private String sender;
+	private String recipient;
+	private String comments;
 }
