@@ -9,10 +9,14 @@ final project for cs6650
 - Follow quickstart step 3: topic name = transaction_topics instead of quickstart-events
 
 - Then run the docker file and then run the spring boot file
--Use postman to connect to 'http//localhost:8080/api/v1/transactions'
+-Use the endpoints tab in IntelliJ to connect to 'http//localhost:8080/api/v1/transactions'
 - JSON POST queries will represent a transaction of sending money from a sender to a recipient if there is enough credit in the balance
 - The database is prepopulated with users: 'ben', 'jiayi', 'matthew' with balances of 20 each
--The post would look like this: {
+-The post would look like this:
+POST http://localhost:8080/api/v1/transactions
+Content-Type: application/json
+
+{
     "recipient": "jiayi",
     "sender" : "ben",
     "amount" : 5,
